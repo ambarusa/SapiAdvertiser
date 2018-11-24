@@ -8,22 +8,55 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Map;
 
 @SuppressLint("ValidFragment")
 public class MyProfileFragment extends Fragment {
 
     private AppCompatImageButton mSignOutBtn;
+    private FirebaseFirestore db;
+
+    private TextView firstName;
+    private TextView lastName;
+    private TextView eMail;
+    private TextView phoneNumber;
+    private TextView address;
+
+    private String mPhoneNumber;
+
+    public MyProfileFragment(String phoneNumber) {
+        this.mPhoneNumber = phoneNumber;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
+
+        db = FirebaseFirestore.getInstance();
+
+        firstName = view.findViewById(R.id.firstNameText);
+        lastName = view.findViewById(R.id.lastNameText);
+        eMail = view.findViewById(R.id.emailText);
+        phoneNumber = view.findViewById(R.id.phoneNumberText);
+        address = view.findViewById(R.id.addressText);
+
         mSignOutBtn = (AppCompatImageButton) view.findViewById(R.id.signoutButton);
         mSignOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,5 +67,30 @@ public class MyProfileFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final DocumentReference docRef = db.collection("users").document(mPhoneNumber);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        firstName.setText(document.getString("FirstName"));
+                        lastName.setText(document.getString("LastName"));
+                        eMail.setText(document.getString("Email"));
+                        phoneNumber.setText(document.getId());
+                        address.setText(document.getString("Address"));
+                    }
+                }
+                else {
+                    Log.d("FIRESTORE", String.valueOf(task.getException()));
+                }
+            }
+        });
     }
 }
