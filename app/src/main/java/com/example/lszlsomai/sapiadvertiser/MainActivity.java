@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try
         {
-            this.getSupportActionBar().hide();
+            this.getSupportActionBar().hide(); // kitorli fentrol az app nevet
         }
         catch (NullPointerException e){}
         setContentView(R.layout.activity_main);

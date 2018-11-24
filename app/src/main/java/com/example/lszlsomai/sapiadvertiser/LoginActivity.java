@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                             //  1 = code verify function
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
 
@@ -45,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        db    = FirebaseFirestore.getInstance();
 
         // UI elements
         mPhoneNumber = (EditText) findViewById(R.id.phoneNumberEditText);
@@ -121,10 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = task.getResult().getUser();
-
-                            Intent authIntent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(authIntent);
-                            finish(); // onDestroy allapot
+                            checkIfUserExists();
 
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -144,21 +146,40 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//        if ( currentUser != null ) {
-//            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(mainIntent);
-//            finish();
-//        }
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if ( currentUser != null ) {
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+            finish();
+        }
 
     }
 
-    public void goToRegistration(View view)
-    {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+    private void checkIfUserExists() {
+        DocumentReference docRef = db.collection("users").document(mPhoneNumber.getText().toString());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // If the phone number is exists
+                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    } else {
+                        // If the phone number is not exists
+                        Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                        registerIntent.putExtra("phoneNumber", mPhoneNumber.getText().toString());
+                        startActivity(registerIntent);
+                        finish();
+                    }
+                } else {
+                    // Failed to retrive the document
+                    mErrorText.setText("Failed to retrive the document.");
+                }
+            }
+        });
     }
-
-
 }

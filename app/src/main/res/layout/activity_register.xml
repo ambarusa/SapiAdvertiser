@@ -17,20 +17,6 @@
         app:layout_constraintBottom_toTopOf="@id/appName"
         app:srcCompat="@drawable/web_hi_res_512" />
 
-    <TextView
-        android:id="@+id/appName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SapiAdvertiser"
-        android:textAlignment="center"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorMyDark"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/reg_first_name"/>
-
     <EditText
         android:id="@+id/reg_first_name"
         android:layout_width="match_parent"
@@ -52,15 +38,40 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/reg_phone_number"/>
+        app:layout_constraintBottom_toTopOf="@id/reg_email"/>
+
     <EditText
-        android:id="@+id/reg_phone_number"
+        android:id="@+id/reg_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="phone"
-        android:hint="Phone Number"
-        android:layout_marginBottom="30dp"
+        android:inputType="textEmailAddress"
+        android:hint="E-mail"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/reg_address"/>
+    <EditText
+        android:id="@+id/reg_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Location address"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/errorText"/>
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:visibility="invisible"
+        android:textColor="@color/colorMyRed"
+        android:layout_marginBottom="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/buttonSignUp"/>
