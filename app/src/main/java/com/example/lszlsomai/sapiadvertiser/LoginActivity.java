@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if ( currentUser != null ) {
             Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            mainIntent.putExtra("phoneNumber", currentUser.getPhoneNumber());
             startActivity(mainIntent);
             finish();
         }
@@ -166,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (document.exists()) {
                         // If the phone number is exists
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        mainIntent.putExtra("phoneNumber", mPhoneNumber.getText().toString());
                         startActivity(mainIntent);
                         finish();
                     } else {

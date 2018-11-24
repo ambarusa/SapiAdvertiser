@@ -1,5 +1,6 @@
 package com.example.lszlsomai.sapiadvertiser;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_my_profile:
-                            selectedFragment = new MyProfileFragment();
+                            Intent intent = getIntent();
+                            String phoneNumber = intent.getStringExtra("phoneNumber");
+                            selectedFragment = new MyProfileFragment(phoneNumber);
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
