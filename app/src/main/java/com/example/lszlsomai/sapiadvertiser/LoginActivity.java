@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
+                Log.d("INFO", e.toString());
                 mErrorText.setVisibility(View.VISIBLE);
                 mErrorText.setText("There was some error in logging in.");
                 mPhoneNumber.setEnabled(true);
@@ -134,9 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                             mErrorText.setText("There was some error in logging in.");
                             mPhoneNumber.setEnabled(true);
                             btnType = 0;
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                            }
                         }
                     }
                 });

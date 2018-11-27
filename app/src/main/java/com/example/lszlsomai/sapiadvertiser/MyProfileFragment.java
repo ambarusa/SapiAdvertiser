@@ -30,7 +30,6 @@ import java.util.Map;
 public class MyProfileFragment extends Fragment {
 
     private AppCompatImageButton mSignOutBtn;
-    private FirebaseFirestore db;
 
     private TextView firstName;
     private TextView lastName;
@@ -38,10 +37,10 @@ public class MyProfileFragment extends Fragment {
     private TextView phoneNumber;
     private TextView address;
 
-    private String mPhoneNumber;
+    private User mUser;
 
-    public MyProfileFragment(String phoneNumber) {
-        this.mPhoneNumber = phoneNumber;
+    public MyProfileFragment(User user) {
+        this.mUser = user;
     }
 
     @Nullable
@@ -49,13 +48,13 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
-        db = FirebaseFirestore.getInstance();
-
         firstName = view.findViewById(R.id.firstNameText);
         lastName = view.findViewById(R.id.lastNameText);
         eMail = view.findViewById(R.id.emailText);
         phoneNumber = view.findViewById(R.id.phoneNumberText);
         address = view.findViewById(R.id.addressText);
+
+        SetUserData();
 
         mSignOutBtn = (AppCompatImageButton) view.findViewById(R.id.signoutButton);
         mSignOutBtn.setOnClickListener(new View.OnClickListener() {
@@ -69,28 +68,12 @@ public class MyProfileFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        final DocumentReference docRef = db.collection("users").document(mPhoneNumber);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        firstName.setText(document.getString("FirstName"));
-                        lastName.setText(document.getString("LastName"));
-                        eMail.setText(document.getString("Email"));
-                        phoneNumber.setText(document.getId());
-                        address.setText(document.getString("Address"));
-                    }
-                }
-                else {
-                    Log.d("FIRESTORE", String.valueOf(task.getException()));
-                }
-            }
-        });
+    private void SetUserData() {
+        firstName.setText(mUser.getFirstName());
+        lastName.setText(mUser.getLastName());
+        eMail.setText(mUser.getEmail());
+        phoneNumber.setText(mUser.getPhoneNumber());
+        address.setText(mUser.getAddress());
     }
+
 }
