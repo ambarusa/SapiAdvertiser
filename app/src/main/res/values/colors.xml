@@ -5,7 +5,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlackTransparent">#6f000000</color>
     <color name="colorAccent">#c6c6c6</color>
-    <color name="colorHomeBackground">#c6c6c6</color>
+    <color name="colorHomeBackground">#e7e7e7</color>
     <color name="colorMyDark">#333333</color>
     <color name="colorMyRed">#FF0000</color>
 </resources>

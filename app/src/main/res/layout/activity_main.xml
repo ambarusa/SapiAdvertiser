@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:labelVisibilityMode="unlabeled"
-        app:itemIconSize="30dp"
+        app:itemIconSize="35dp"
         app:menu="@menu/bottom_navigation">
 
     </android.support.design.widget.BottomNavigationView>
