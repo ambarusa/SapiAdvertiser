@@ -1,6 +1,5 @@
 package com.example.lszlsomai.sapiadvertiser;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -8,13 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,15 +29,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+
+        //Remove the titlebar
         try
         {
-            this.getSupportActionBar().hide(); // kitorli fentrol az app nevet
+            this.getSupportActionBar().hide();
         }
         catch (NullPointerException e){}
         setContentView(R.layout.activity_main);
 
         //Link with Firestore
         db = FirebaseFirestore.getInstance();
+
+        //Get the informations about the user
         GetUserDataFromFirestore();
 
         //Initialize Bottom Navigation View
@@ -61,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
                         String address = document.getString("Address");
 
                         mUser = new User(firstName, lastName, eMail, phoneNumber, address);
+                    }
+                    else {
+                        Log.d("FIRESTORE", "No document exists");
                     }
                 }
                 else {

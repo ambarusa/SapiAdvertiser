@@ -30,6 +30,7 @@ import java.util.Map;
 public class MyProfileFragment extends Fragment {
 
     private AppCompatImageButton mSignOutBtn;
+    private User mUser;
 
     private TextView firstName;
     private TextView lastName;
@@ -37,10 +38,8 @@ public class MyProfileFragment extends Fragment {
     private TextView phoneNumber;
     private TextView address;
 
-    private User mUser;
-
-    public MyProfileFragment(User user) {
-        this.mUser = user;
+    public MyProfileFragment(User mUser) {
+        this.mUser = mUser;
     }
 
     @Nullable
@@ -54,7 +53,11 @@ public class MyProfileFragment extends Fragment {
         phoneNumber = view.findViewById(R.id.phoneNumberText);
         address = view.findViewById(R.id.addressText);
 
-        SetUserData();
+        firstName.setText(mUser.getFirstName());
+        lastName.setText(mUser.getLastName());
+        eMail.setText(mUser.getEmail());
+        phoneNumber.setText(mUser.getPhoneNumber());
+        address.setText(mUser.getAddress());
 
         mSignOutBtn = (AppCompatImageButton) view.findViewById(R.id.signoutButton);
         mSignOutBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +69,6 @@ public class MyProfileFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    private void SetUserData() {
-        firstName.setText(mUser.getFirstName());
-        lastName.setText(mUser.getLastName());
-        eMail.setText(mUser.getEmail());
-        phoneNumber.setText(mUser.getPhoneNumber());
-        address.setText(mUser.getAddress());
     }
 
 }
