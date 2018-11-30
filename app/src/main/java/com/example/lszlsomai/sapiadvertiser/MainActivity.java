@@ -1,5 +1,6 @@
 package com.example.lszlsomai.sapiadvertiser;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -9,18 +10,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements MyAdsFragment.OnFragmentInteractionListener {
 
     private User mUser;
     private FirebaseFirestore db;
@@ -94,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_my_profile:
-                            selectedFragment = new MyProfileFragment(mUser);
+                            selectedFragment = new MyAccountFragment(mUser);
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
@@ -102,4 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

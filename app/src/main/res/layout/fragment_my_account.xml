@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyProfileFragment">
+    tools:context=".MyAccountFragment">
 
     <RelativeLayout
-        android:id="@+id/profileHeader"
+        android:id="@+id/account_header"
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
         <ImageButton
-            android:id="@+id/signoutButton"
+            android:id="@+id/signout_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentLeft="true"
@@ -32,7 +32,7 @@
             android:src="@drawable/img_avatar" />
 
         <ImageButton
-            android:id="@+id/postsButton"
+            android:id="@+id/my_ads_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
@@ -58,7 +58,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+        app:layout_constraintTop_toBottomOf="@+id/account_header">
 
         <TextView
             android:id="@+id/firstNameText"
