@@ -1,6 +1,7 @@
 package com.example.lszlsomai.sapiadvertiser;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,7 +31,6 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView mAdsContainer;
     private DatabaseReference mDatabase;
-    private DatabaseReference mAds;
     private FirebaseRecyclerOptions<Ad> options;
     private FirebaseRecyclerAdapter<Ad, AdViewHolder> adapter;
 
@@ -56,9 +56,10 @@ public class HomeFragment extends Fragment {
         super.onStart();
         options = new FirebaseRecyclerOptions.Builder<Ad>().setQuery(mDatabase, Ad.class).build();
         adapter = new FirebaseRecyclerAdapter<Ad, AdViewHolder>(options) {
+
             @Override
             protected void onBindViewHolder(final AdViewHolder holder, int position, final Ad ad) {
-                String id = getRef(position).getKey();
+                final String id = getRef(position).getKey();
                 mDatabase.child(id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,6 +81,15 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
+
+                holder.adLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AdActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
                     }
                 });
             }

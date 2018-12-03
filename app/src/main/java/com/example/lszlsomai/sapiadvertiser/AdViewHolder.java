@@ -1,5 +1,6 @@
 package com.example.lszlsomai.sapiadvertiser;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ public class AdViewHolder extends RecyclerView.ViewHolder {
     ImageView adAvatar;
     ImageView adThumbnail;
     TextView adViews;
+    CardView adLayout;
 
 
     public AdViewHolder(View itemView) {
@@ -21,5 +23,6 @@ public class AdViewHolder extends RecyclerView.ViewHolder {
         adAvatar = itemView.findViewById(R.id.ad_avatar);
         adThumbnail = itemView.findViewById(R.id.ad_thumbnail);
         adViews = itemView.findViewById(R.id.ad_views);
+        adLayout = itemView.findViewById(R.id.ad_layout);
     }
 }

@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +19,8 @@ public class MyAccountFragment extends Fragment {
 
     MyAdsFragment.OnFragmentInteractionListener mCallback;
 
-    private AppCompatImageButton mSignoutButton;
-    private AppCompatImageButton mMyAdsButton;
+    private ImageButton mSignoutButton;
+    private ImageButton mMyAdsButton;
     private User mUser;
 
     private TextView firstName;

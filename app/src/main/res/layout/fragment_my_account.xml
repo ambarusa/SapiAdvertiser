@@ -17,18 +17,17 @@
             android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Sign Out Button"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="@+id/profilePictureView"
             app:srcCompat="@drawable/ic_signout" />
 
-        <ImageView
-            android:id="@+id/profilePictureView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Profile Picture"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/account_avatar"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:elevation="6dp"
             android:src="@drawable/img_avatar" />
 
         <ImageButton
@@ -37,12 +36,9 @@
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-
+            android:layout_marginRight="30dp"
             android:background="@android:color/transparent"
-            android:contentDescription="View own posts"
             android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="@+id/profilePictureView"
             app:srcCompat="@drawable/ic_ads" />
 
     </RelativeLayout>
