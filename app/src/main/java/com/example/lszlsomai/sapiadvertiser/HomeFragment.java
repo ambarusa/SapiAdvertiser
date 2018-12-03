@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Ad, AdViewHolder>(options) {
 
             @Override
-            protected void onBindViewHolder(final AdViewHolder holder, int position, final Ad ad) {
+            protected void onBindViewHolder(final AdViewHolder holder, final int position, final Ad ad) {
                 final String id = getRef(position).getKey();
                 mDatabase.child(id).addValueEventListener(new ValueEventListener() {
                     @Override

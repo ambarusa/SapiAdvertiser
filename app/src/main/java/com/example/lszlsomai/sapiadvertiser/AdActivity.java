@@ -32,10 +32,8 @@ public class AdActivity extends AppCompatActivity {
     private ImageView adAvatar;
     private TextView adCreator;
 
-
     private DatabaseReference mDatabase;
     private FirebaseFirestore db;
-    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +57,6 @@ public class AdActivity extends AppCompatActivity {
         adAvatar = findViewById(R.id.opened_ad_avatar);
         adCreator = findViewById(R.id.opened_ad_creator);
 
-        mUser = new User();
-
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
 
@@ -72,6 +68,7 @@ public class AdActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         final String id = getIntent().getStringExtra("id");
+
         mDatabase.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,6 +95,19 @@ public class AdActivity extends AppCompatActivity {
             }
         });
 
+        mDatabase.child(id).child("views").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int value = Integer.parseInt(dataSnapshot.getValue().toString());
+                value++;
+                dataSnapshot.getRef().setValue(String.valueOf(value));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void GetCreatorName(final String phoneNumber) {
