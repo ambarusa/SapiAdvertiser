@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -31,54 +28,64 @@ import java.util.Map;
 public class CreateAdFragment extends Fragment {
 
     private EditText adTitle;
-    private EditText adPhone;
-    private EditText adLocation;
-    private EditText shortDescr;
-    private EditText longDescr;
-    private TextView errorText;
+    private EditText adPhoneNumber;
+    private EditText adEmail;
+    private EditText adAddress;
+    private EditText adShortDescription;
+    private EditText adLongDescription;
     private Button createAdBtn;
-    private User currentUser;
-    private FirebaseFirestore db;
     private View view;
 
-    @SuppressLint("ValidFragment")
-    public CreateAdFragment(User user) {
-        this.currentUser = user;
-    }
+    private DatabaseReference mDatabase;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_create_ad, container, false);
 
-        db = FirebaseFirestore.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
 
         adTitle = view.findViewById(R.id.adTitle);
-        shortDescr = view.findViewById(R.id.ad_shortDescr);
-        longDescr = view.findViewById(R.id.ad_longDescr);
-        adPhone = view.findViewById(R.id.ad_phone);
-        adLocation = view.findViewById(R.id.ad_Location);
+        adShortDescription = view.findViewById(R.id.ad_shortDescr);
+        adLongDescription = view.findViewById(R.id.ad_longDescr);
+        adPhoneNumber = view.findViewById(R.id.ad_phone);
+        adEmail = view.findViewById(R.id.ad_email);
+        adAddress = view.findViewById(R.id.ad_Location);
         createAdBtn = view.findViewById(R.id.createAdBtn);
-        errorText = view.findViewById(R.id.errorText);
 
         createAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( validateForm() == false ) {
-                    errorText.setVisibility(View.VISIBLE);
-                    errorText.setText("Please, fill out all fields.");
+                if (!validateForm()) {
+                    Toast.makeText(getActivity(), "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Map<String, Object> ad = new HashMap<>();
+                Map<String, Object> adMap = new HashMap<>();
 
-                ad.put("title", adTitle.getText().toString());
-                ad.put("shortDescription", shortDescr.getText().toString());
-                ad.put("longDescription", longDescr.getText().toString());
-                ad.put("phoneNumber", adPhone.getText().toString());
-                ad.put("address", adLocation.getText().toString());
+                adMap.put("title", adTitle.getText().toString());
+                adMap.put("shortDescription", adShortDescription.getText().toString());
+                adMap.put("longDescription", adLongDescription.getText().toString());
+                adMap.put("phoneNumber", adPhoneNumber.getText().toString());
+                adMap.put("email", adEmail.getText().toString());
+                adMap.put("address", adAddress.getText().toString());
+                adMap.put("views", "0");
 
-                addAdvertismentToFirestore(ad);
+                mDatabase.push().updateChildren(adMap, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                            adTitle.getText().clear();
+                            adShortDescription.getText().clear();
+                            adLongDescription.getText().clear();
+                            adPhoneNumber.getText().clear();
+                            adAddress.getText().clear();
+                            Toast.makeText(getActivity(), "Ad created successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
             }
         });
@@ -97,85 +104,46 @@ public class CreateAdFragment extends Fragment {
             adTitle.setError(null);
         }
 
-        String shortDescText = shortDescr.getText().toString();
+        String shortDescText = adShortDescription.getText().toString();
         if (TextUtils.isEmpty(shortDescText)) {
-            shortDescr.setError("Required.");
+            adShortDescription.setError("Required.");
             valid = false;
         } else {
-            shortDescr.setError(null);
+            adShortDescription.setError(null);
         }
 
-        String longDescText = longDescr.getText().toString();
+        String longDescText = adLongDescription.getText().toString();
         if (TextUtils.isEmpty(longDescText)) {
-            longDescr.setError("Required.");
+            adLongDescription.setError("Required.");
             valid = false;
         } else {
-            longDescr.setError(null);
+            adLongDescription.setError(null);
         }
 
-        String phoneNumber = adPhone.getText().toString();
+        String phoneNumber = adPhoneNumber.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
-            adPhone.setError("Required.");
+            adPhoneNumber.setError("Required.");
             valid = false;
         } else {
-            adPhone.setError(null);
+            adPhoneNumber.setError(null);
         }
 
-        String location = adLocation.getText().toString();
+        String email = adEmail.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            adEmail.setError("Required.");
+            valid = false;
+        } else {
+            adEmail.setError(null);
+        }
+
+        String location = adAddress.getText().toString();
         if (TextUtils.isEmpty(location)) {
-            adLocation.setError("Required.");
+            adAddress.setError("Required.");
             valid = false;
         } else {
-            adLocation.setError(null);
+            adAddress.setError(null);
         }
-
         return valid;
-    }
-
-    private void addAdvertismentToFirestore(Map<String, Object> ad) {
-        db.collection("ads")
-                .add(ad)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-
-                        // Add this advertisment's ID for the user's Ads document
-
-                        addAdvertismentIDforUser(documentReference.getId());
-
-                        Toast.makeText(getActivity(), "Advertisment created.", Toast.LENGTH_SHORT).show();
-                        Log.d("ADCreation", "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error: Can't create the ad.", Toast.LENGTH_SHORT).show();
-                        Log.w("ADCreation", "Error adding document", e);
-                    }
-                });
-    }
-
-    private void addAdvertismentIDforUser(String ID) {
-        Map<String, Object> emptyDoc = new HashMap<>();
-
-        emptyDoc.put("empty", true);
-
-        db.collection("users").document(currentUser.getPhoneNumber()).collection("myAds").document(ID)
-                .set(emptyDoc)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.w("ADCreation", "Auto-generated ID added for user's myAds document.");
-                        getFragmentManager().beginTransaction().replace(R.id.container, new tasks()).commit();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("ADCreation", "Failed to add auto-generated ID for user's myAds document.");
-                    }
-                });
     }
 
 }

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
                     Fragment selectedFragment = null;
                     switch (menuItem.getItemId()) {
                         case R.id.nav_create:
-                            selectedFragment = new CreateAdFragment(mUser);
+                            selectedFragment = new CreateAdFragment();
                             break;
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment();
