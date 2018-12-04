@@ -61,18 +61,34 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:hint="Location"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/createAdBtn" />
+        app:layout_constraintBottom_toTopOf="@+id/errorText" />
 
     <Button
         android:id="@+id/createAdBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create ad"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold"
         android:layout_marginBottom="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16dp"
+        android:textColor="@color/colorMyRed"
+        android:layout_marginBottom="30dp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/createAdBtn"  />
 </android.support.constraint.ConstraintLayout>
