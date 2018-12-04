@@ -1,22 +1,25 @@
 package com.example.lszlsomai.sapiadvertiser;
 
 public class Ad {
-    private String        title;
-    private String        shortDescription;
-    private StringBuilder longDescription;
-    private String        phoneNumber;
-    private String        email;
-    private String        location;
-    private int           views;
+    private String title;
+    private String shortDescription;
+    private String longDescription;
+    private String phoneNumber;
+    private String email;
+    private String address;
+    private String views;
 
-    public Ad(String title, String shortDescription, StringBuilder longDescription, String phoneNumber, String location) {
+    public Ad() {
+    }
+
+    public Ad(String title, String shortDescription, String longDescription, String phoneNumber, String email, String address, String views) {
         this.title = title;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.phoneNumber = phoneNumber;
-        this.location = location;
-        this.views = 0;
-        this.email = "";
+        this.email = email;
+        this.address = address;
+        this.views = views;
     }
 
     public String getTitle() {
@@ -35,11 +38,11 @@ public class Ad {
         this.shortDescription = shortDescription;
     }
 
-    public StringBuilder getLongDescription() {
+    public String getLongDescription() {
         return longDescription;
     }
 
-    public void setLongDescription(StringBuilder longDescription) {
+    public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
     }
 
@@ -59,19 +62,19 @@ public class Ad {
         this.email = email;
     }
 
-    public String getLocation() {
-        return location;
+    public String getaddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setaddress(String address) {
+        this.address = address;
     }
 
-    public int getViews() {
+    public String getViews() {
         return views;
     }
 
-    public void setViews(int views) {
+    public void setViews(String views) {
         this.views = views;
     }
 }
