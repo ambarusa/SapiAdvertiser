@@ -118,8 +118,7 @@ public class AdActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String firstName = document.getString("FirstName");
-                        String lastName = document.getString("LastName");
-                        adCreator.setText(firstName + " " + lastName);
+                        adCreator.setText(firstName);
                     } else {
                         Log.d("FIRESTORE", "No document exists");
                     }
