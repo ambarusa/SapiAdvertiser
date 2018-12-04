@@ -10,14 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/opened_ad_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="5dp"/>
 
         <ImageView
             android:id="@+id/opened_ad_image"
@@ -27,88 +22,159 @@
             android:src="@mipmap/ic_launcher"/>
 
         <TextView
+            android:id="@+id/opened_ad_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorMyDark"
+            android:text=""
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_description"/>
+        <TextView
             android:id="@+id/opened_ad_longDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@color/colorHomeBackground"/>
+            android:text=""
+            android:minHeight="70dp"
+            android:padding="5dp"
+            android:layout_marginLeft="35dp"
+            android:textSize="16dp"
+            android:textColor="@color/colorMyDark"
+            android:inputType="textMultiLine" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/opened_ad_phoneNumber"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@color/colorHomeBackground"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_smartphone"/>
 
+            <TextView
+                android:id="@+id/opened_ad_phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginLeft="35dp"
+                android:text=""
+                android:textColor="@color/colorMyDark" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_email"/>
 
         <TextView
             android:id="@+id/opened_ad_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@color/colorHomeBackground"/>
+            android:textSize="16dp"
+            android:layout_marginLeft="35dp"
+            android:text=""
+            android:textColor="@color/colorMyDark" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/opened_ad_address"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@color/colorHomeBackground"/>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_location"/>
+
+            <TextView
+                android:id="@+id/opened_ad_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:textSize="16dp"
+                android:text=""
+                android:textColor="@color/colorMyDark" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingHorizontal="15dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true">
 
             <ImageButton
                 android:id="@+id/opened_ad_report"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
+                android:tint="@color/colorMyRed"
                 app:srcCompat="@drawable/ic_report" />
 
             <ImageButton
                 android:id="@+id/opened_ad_share"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
+                android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_share" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/opened_ad_avatar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/img_avatar"
-                android:elevation="3dp"/>
+                android:elevation="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"/>
 
             <TextView
                 android:id="@+id/opened_ad_creator"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:text="Creator"/>
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorMyDark"
+                android:textSize="16dp"
+                android:textAlignment="center"/>
         </LinearLayout>
-
-    </RelativeLayout>
-
 
 </LinearLayout>
