@@ -39,11 +39,10 @@ public class AdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Remove the titlebar
-        try
-        {
+        try {
             this.getSupportActionBar().hide();
+        } catch (NullPointerException e) {
         }
-        catch (NullPointerException e){}
         setContentView(R.layout.activity_ad);
 
         adTitle = findViewById(R.id.opened_ad_title);
@@ -121,12 +120,10 @@ public class AdActivity extends AppCompatActivity {
                         String firstName = document.getString("FirstName");
                         String lastName = document.getString("LastName");
                         adCreator.setText(firstName + " " + lastName);
-                    }
-                    else {
+                    } else {
                         Log.d("FIRESTORE", "No document exists");
                     }
-                }
-                else {
+                } else {
                     Log.d("FIRESTORE", String.valueOf(task.getException()));
                 }
             }

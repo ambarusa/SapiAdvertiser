@@ -1,5 +1,6 @@
 package com.example.lszlsomai.sapiadvertiser;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,11 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mPhoneNumber;
     private EditText mVerificationCode;
-    private TextView mErrorText;
     private Button mLoginBtn;
 
     private int btnType = 0; // 0 = phone number verification function
-                            //  1 = code verify function
+    //  1 = code verify function
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -49,27 +50,23 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        db    = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // UI elements
         mPhoneNumber = (EditText) findViewById(R.id.phoneNumberEditText);
         mVerificationCode = (EditText) findViewById(R.id.verificationCode);
         mLoginBtn = (Button) findViewById(R.id.buttonSignIn);
-        mErrorText = (TextView) findViewById(R.id.errorText);
 
         // When Sign In button pressed listener
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (btnType == 0) {
-
                     mLoginBtn.setEnabled(false);
                     mPhoneNumber.setEnabled(false);
 
                     // Save the phone number
                     String phoneNumber = mPhoneNumber.getText().toString();
-
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             // Phone number to verify
                             phoneNumber,
@@ -98,15 +95,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                Log.d("INFO", e.toString());
-                mErrorText.setVisibility(View.VISIBLE);
-                mErrorText.setText("There was some error in logging in.");
+                Toast.makeText(getBaseContext(), "There was some error in logging in.", Toast.LENGTH_LONG).show();
                 mPhoneNumber.setEnabled(true);
             }
 
             @Override
             public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
-               // Save verification ID and resending token so we can use them later
+                // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
 
@@ -131,8 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             // Sign in failed, display a message and update the UI
-                            mErrorText.setVisibility(View.VISIBLE);
-                            mErrorText.setText("There was some error in logging in.");
+                            Toast.makeText(getBaseContext(), "There was some error in logging in, please try again later", Toast.LENGTH_LONG).show();
                             mPhoneNumber.setEnabled(true);
                             btnType = 0;
                         }
@@ -146,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if ( currentUser != null ) {
+        if (currentUser != null) {
             Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
             mainIntent.putExtra("phoneNumber", currentUser.getPhoneNumber());
             startActivity(mainIntent);
@@ -177,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     // Failed to retrive the document
-                    mErrorText.setText("Failed to retrive the document.");
+                    Toast.makeText(getBaseContext(), "Failed to retrive the document", Toast.LENGTH_SHORT).show();
                 }
             }
         });
