@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:272538548535:android:980ad0a6d715bab5",
         "android_client_info": {
-          "package_name": "com.example.lszlsomai.sapiadvertiser"
+          "package_name": "ro.sapientia.ms.sapiadvertiser"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "272538548535-4l14m261og5mbpo2ontumv4be12ecedc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lszlsomai.sapiadvertiser",
+            "package_name": "ro.sapientia.ms.sapiadvertiser",
             "certificate_hash": "37b0d23264141994f85e25148f2bd9dd7aba7301"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "272538548535-2l2j40q8ngg5mb6qjolfahum5ll2voak.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lszlsomai.sapiadvertiser",
+            "package_name": "ro.sapientia.ms.sapiadvertiser",
             "certificate_hash": "b6e6af093f7889eddce519f4524e354cbfba0c37"
           }
         },
@@ -34,7 +34,7 @@
           "client_id": "272538548535-217dms46mh9h5grceb42hfc9g6cpjcfp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lszlsomai.sapiadvertiser",
+            "package_name": "ro.sapientia.ms.sapiadvertiser",
             "certificate_hash": "c2a61363e15696e072672043f00617312e24a8ef"
           }
         },

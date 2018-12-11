@@ -1,4 +1,4 @@
-package com.example.lszlsomai.sapiadvertiser;
+package ro.sapientia.ms.sapiadvertiser;
 
 import org.junit.Test;
 

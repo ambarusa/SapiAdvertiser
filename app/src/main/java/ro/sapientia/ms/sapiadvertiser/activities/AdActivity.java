@@ -1,9 +1,11 @@
-package com.example.lszlsomai.sapiadvertiser;
+package ro.sapientia.ms.sapiadvertiser.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import ro.sapientia.ms.sapiadvertiser.R;
+
 public class AdActivity extends AppCompatActivity {
 
     private TextView adTitle;
@@ -30,7 +34,6 @@ public class AdActivity extends AppCompatActivity {
     private ImageButton adReport;
     private ImageButton adShare;
     private ImageView adAvatar;
-    private TextView adCreator;
 
     private DatabaseReference mDatabase;
     private FirebaseFirestore db;
@@ -54,7 +57,6 @@ public class AdActivity extends AppCompatActivity {
         adReport = findViewById(R.id.opened_ad_report);
         adShare = findViewById(R.id.opened_ad_share);
         adAvatar = findViewById(R.id.opened_ad_avatar);
-        adCreator = findViewById(R.id.opened_ad_creator);
 
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
@@ -107,6 +109,22 @@ public class AdActivity extends AppCompatActivity {
 
             }
         });
+        // On report button click
+        adReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Novelni eggyel a kapott reportok szamat
+                // Feldobni egy toastot Reported felirattal
+            }
+        });
+
+        adShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // https://developer.android.com/training/sharing/send#java
+            }
+        });
+
     }
 
     private void GetCreatorName(final String phoneNumber) {
@@ -118,7 +136,7 @@ public class AdActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String firstName = document.getString("FirstName");
-                        adCreator.setText(firstName);
+                        //adCreator.setText(firstName);
                     } else {
                         Log.d("FIRESTORE", "No document exists");
                     }
