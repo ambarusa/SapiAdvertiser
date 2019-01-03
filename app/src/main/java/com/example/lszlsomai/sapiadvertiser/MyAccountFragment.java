@@ -1,4 +1,4 @@
-package ro.sapientia.ms.sapiadvertiser.fragments;
+package com.example.lszlsomai.sapiadvertiser;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,10 +14,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import ro.sapientia.ms.sapiadvertiser.activities.LoginActivity;
-import ro.sapientia.ms.sapiadvertiser.R;
-import ro.sapientia.ms.sapiadvertiser.models.User;
-
 @SuppressLint("ValidFragment")
 public class MyAccountFragment extends Fragment {
 
@@ -27,7 +23,8 @@ public class MyAccountFragment extends Fragment {
     private ImageButton mMyAdsButton;
     private User mUser;
 
-    private TextView fullName;
+    private TextView firstName;
+    private TextView lastName;
     private TextView eMail;
     private TextView phoneNumber;
     private TextView address;
@@ -41,12 +38,14 @@ public class MyAccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
 
-        fullName = view.findViewById(R.id.fullNameText);
+        firstName = view.findViewById(R.id.firstNameText);
+        lastName = view.findViewById(R.id.lastNameText);
         eMail = view.findViewById(R.id.emailText);
         phoneNumber = view.findViewById(R.id.phoneNumberText);
         address = view.findViewById(R.id.addressText);
 
-        fullName.setText(mUser.getFirstName() + " " + mUser.getLastName());
+        firstName.setText(mUser.getFirstName());
+        lastName.setText(mUser.getLastName());
         eMail.setText(mUser.getEmail());
         phoneNumber.setText(mUser.getPhoneNumber());
         address.setText(mUser.getAddress());

@@ -1,6 +1,7 @@
-package ro.sapientia.ms.sapiadvertiser.fragments;
+package com.example.lszlsomai.sapiadvertiser;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,9 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import ro.sapientia.ms.sapiadvertiser.models.Ad;
-import ro.sapientia.ms.sapiadvertiser.R;
 
 @SuppressLint("ValidFragment")
 public class MyAdsFragment extends Fragment {

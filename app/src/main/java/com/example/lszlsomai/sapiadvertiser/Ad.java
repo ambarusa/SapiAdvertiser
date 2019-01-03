@@ -1,4 +1,4 @@
-package ro.sapientia.ms.sapiadvertiser.models;
+package com.example.lszlsomai.sapiadvertiser;
 
 public class Ad {
     private String title;

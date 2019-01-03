@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardCornerRadius="5dp"
+    app:cardElevation="0dp"
     android:id="@+id/ad_layout">
 
     <LinearLayout
@@ -16,16 +17,14 @@
         <ImageView
             android:id="@+id/ad_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="fitXY"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="7dp"
-            android:background="#efefef"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -37,16 +36,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/ad_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"></TextView>
+
 
                 <RelativeLayout
                     android:id="@+id/details_box"
@@ -61,26 +62,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Some Detail"
-                        android:layout_centerVertical="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     <ImageView
-                        android:layout_width="24dp"
+                        android:layout_width="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:tint="#888888"
-                        app:srcCompat="@drawable/ic_visibility" />
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp"
+                        app:srcCompat="@drawable/ic_touch" />
 
                     <TextView
                     android:id="@+id/ad_views"
-                    android:layout_alignParentRight="true"
+                        android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="99"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"></TextView>
 
                 </RelativeLayout>

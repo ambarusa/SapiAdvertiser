@@ -1,4 +1,4 @@
-package ro.sapientia.ms.sapiadvertiser.activities;
+package com.example.lszlsomai.sapiadvertiser;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -13,13 +13,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import ro.sapientia.ms.sapiadvertiser.fragments.MyAdsFragment;
-import ro.sapientia.ms.sapiadvertiser.R;
-import ro.sapientia.ms.sapiadvertiser.models.User;
-import ro.sapientia.ms.sapiadvertiser.fragments.CreateAdFragment;
-import ro.sapientia.ms.sapiadvertiser.fragments.HomeFragment;
-import ro.sapientia.ms.sapiadvertiser.fragments.MyAccountFragment;
 
 public class MainActivity extends AppCompatActivity
         implements MyAdsFragment.OnFragmentInteractionListener {
