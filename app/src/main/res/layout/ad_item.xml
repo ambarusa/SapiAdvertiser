@@ -56,7 +56,12 @@
                     android:layout_marginTop="10dp"
                     android:paddingRight="5dp"
                     android:orientation="horizontal">
-
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp"
+                        app:srcCompat="@drawable/ic_touch" />
                     <TextView
                         android:id="@+id/ad_description"
                         android:layout_width="wrap_content"
@@ -64,12 +69,7 @@
                         android:text="Some Detail"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="15dp"
-                        app:srcCompat="@drawable/ic_touch" />
+
 
                     <TextView
                     android:id="@+id/ad_views"
