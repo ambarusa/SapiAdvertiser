@@ -35,9 +35,6 @@ import static android.app.Activity.RESULT_OK;
 @SuppressLint("ValidFragment")
 public class CreateAdFragment extends Fragment {
 
-    private final int SELECT_IMAGE_REQUEST = 71;
-    private Uri filePath;
-
     private EditText adTitle;
     private EditText adPhoneNumber;
     private EditText adEmail;
@@ -46,6 +43,10 @@ public class CreateAdFragment extends Fragment {
     private EditText adLongDescription;
     private Button createAdBtn;
     private Button chooseBtn;
+    private ImageView uploadedImg;
+
+    private final int SELECT_IMAGE_REQUEST = 71;
+    private Uri filePath;
 
     private View view;
 
@@ -66,6 +67,7 @@ public class CreateAdFragment extends Fragment {
         adAddress = view.findViewById(R.id.ad_Location);
         createAdBtn = view.findViewById(R.id.createAdBtn);
         chooseBtn = view.findViewById(R.id.chooseBtn);
+        uploadedImg = view.findViewById(R.id.uploadedImg);
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +177,15 @@ public class CreateAdFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
-                ImageView uploadDoneImg = view.findViewById(R.id.uploadDoneImg);
-                uploadDoneImg.setVisibility(View.VISIBLE);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+                uploadedImg.setImageBitmap(bitmap);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            ImageView uploadDoneImg = view.findViewById(R.id.uploadDoneImg);
+            uploadDoneImg.setVisibility(View.VISIBLE);
         }
     }
 }
