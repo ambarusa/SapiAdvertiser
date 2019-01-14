@@ -1,13 +1,17 @@
 package ro.sapientia.ms.sapiadvertiser.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +21,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import ro.sapientia.ms.sapiadvertiser.R;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +48,7 @@ public class CreateAdFragment extends Fragment {
     private Button createAdBtn;
     private Button chooseBtn;
     private ImageView uploadedImg;
+    private ImageView uploadDoneImg;
 
     private final int SELECT_IMAGE_REQUEST = 71;
     private Uri filePath;
@@ -45,6 +56,7 @@ public class CreateAdFragment extends Fragment {
     private View view;
 
     private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
 
     @Nullable
     @Override
@@ -52,6 +64,7 @@ public class CreateAdFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_create_ad, container, false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         adTitle = view.findViewById(R.id.adTitle);
         adShortDescription = view.findViewById(R.id.ad_shortDescr);
@@ -62,6 +75,7 @@ public class CreateAdFragment extends Fragment {
         createAdBtn = view.findViewById(R.id.createAdBtn);
         chooseBtn = view.findViewById(R.id.chooseBtn);
         uploadedImg = view.findViewById(R.id.uploadedImg);
+        uploadDoneImg = view.findViewById(R.id.uploadDoneImg);
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +96,6 @@ public class CreateAdFragment extends Fragment {
                 }
 
                 Map<String, Object> adMap = new HashMap<>();
-
                 adMap.put("title", adTitle.getText().toString());
                 adMap.put("shortDescription", adShortDescription.getText().toString());
                 adMap.put("longDescription", adLongDescription.getText().toString());
@@ -94,22 +107,39 @@ public class CreateAdFragment extends Fragment {
                 mDatabase.push().updateChildren(adMap, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                        if (databaseError != null) {
-                            adTitle.getText().clear();
-                            adShortDescription.getText().clear();
-                            adLongDescription.getText().clear();
-                            adPhoneNumber.getText().clear();
-                            adAddress.getText().clear();
-                            Toast.makeText(getActivity(), "Ad created successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                        if(filePath != null) {
+                            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setTitle("Uploading image...");
+                            progressDialog.show();
+
+                            StorageReference riversRef = mStorageRef.child("images/" + adTitle.getText().toString());
+                            riversRef.putFile(filePath)
+                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            progressDialog.dismiss();
+                                            adTitle.getText().clear();
+                                            adShortDescription.getText().clear();
+                                            adLongDescription.getText().clear();
+                                            adPhoneNumber.getText().clear();
+                                            adAddress.getText().clear();
+                                            uploadedImg.setImageResource(android.R.color.transparent);
+                                            uploadDoneImg.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(getActivity(), "Ad created successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            Toast.makeText(getActivity(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                         }
                     }
                 });
 
             }
         });
-
         return view;
     }
 
@@ -175,10 +205,9 @@ public class CreateAdFragment extends Fragment {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
                 uploadedImg.setImageBitmap(bitmap);
             }
-            catch (IOException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
-            ImageView uploadDoneImg = view.findViewById(R.id.uploadDoneImg);
             uploadDoneImg.setVisibility(View.VISIBLE);
         }
     }

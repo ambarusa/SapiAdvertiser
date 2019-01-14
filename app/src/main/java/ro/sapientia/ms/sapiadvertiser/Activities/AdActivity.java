@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ro.sapientia.ms.sapiadvertiser.Models.GlideApp;
 import ro.sapientia.ms.sapiadvertiser.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class AdActivity extends AppCompatActivity {
 
@@ -34,6 +37,7 @@ public class AdActivity extends AppCompatActivity {
     private TextView adCreator;
 
     private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
     private FirebaseFirestore db;
 
     @Override
@@ -59,6 +63,7 @@ public class AdActivity extends AppCompatActivity {
 
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         //Link with Firestore
         db = FirebaseFirestore.getInstance();
@@ -86,7 +91,9 @@ public class AdActivity extends AppCompatActivity {
                 GetCreatorName(phoneNumber);
 
                 adAvatar.setImageResource(R.drawable.img_avatar);
-                adImage.setImageResource(R.mipmap.ic_launcher);
+                GlideApp.with(getApplicationContext())
+                        .load(mStorageRef.child("/images/" + title))
+                        .into(adImage);
             }
 
             @Override
