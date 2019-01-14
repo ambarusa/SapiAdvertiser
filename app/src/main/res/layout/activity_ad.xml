@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.AdActivity">
+    tools:context="ro.sapientia.ms.sapiadvertiser.Activities.AdActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

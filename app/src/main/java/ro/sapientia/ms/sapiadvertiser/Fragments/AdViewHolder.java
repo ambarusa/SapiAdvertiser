@@ -1,5 +1,6 @@
-package com.example.lszlsomai.sapiadvertiser.Activities;
+package ro.sapientia.ms.sapiadvertiser.Fragments;
 
+import ro.sapientia.ms.sapiadvertiser.R;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

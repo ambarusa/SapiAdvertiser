@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.MyAccountFragment">
+    tools:context="ro.sapientia.ms.sapiadvertiser.Fragments.MyAccountFragment">
 
     <RelativeLayout
         android:id="@+id/account_header"

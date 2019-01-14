@@ -1,4 +1,4 @@
-package com.example.lszlsomai.sapiadvertiser.Activities;
+package ro.sapientia.ms.sapiadvertiser.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lszlsomai.sapiadvertiser.R;
+import ro.sapientia.ms.sapiadvertiser.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;

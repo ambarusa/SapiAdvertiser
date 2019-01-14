@@ -1,4 +1,4 @@
-package com.example.lszlsomai.sapiadvertiser.Fragments;
+package ro.sapientia.ms.sapiadvertiser.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.lszlsomai.sapiadvertiser.Activities.LoginActivity;
-import com.example.lszlsomai.sapiadvertiser.R;
-import com.example.lszlsomai.sapiadvertiser.Models.User;
+import ro.sapientia.ms.sapiadvertiser.Activities.LoginActivity;
+import ro.sapientia.ms.sapiadvertiser.R;
+import ro.sapientia.ms.sapiadvertiser.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 
 @SuppressLint("ValidFragment")
