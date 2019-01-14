@@ -1,4 +1,4 @@
-package com.example.lszlsomai.sapiadvertiser;
+package com.example.lszlsomai.sapiadvertiser.Models;
 
 public class Ad {
     private String title;

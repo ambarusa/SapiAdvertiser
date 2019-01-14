@@ -1,14 +1,10 @@
-package com.example.lszlsomai.sapiadvertiser;
+package com.example.lszlsomai.sapiadvertiser.Fragments;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,31 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lszlsomai.sapiadvertiser.Models.Ad;
+import com.example.lszlsomai.sapiadvertiser.Activities.AdActivity;
+import com.example.lszlsomai.sapiadvertiser.Activities.AdViewHolder;
+import com.example.lszlsomai.sapiadvertiser.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-@SuppressLint("ValidFragment")
-public class MyAdsFragment extends Fragment {
+public class HomeFragment extends Fragment {
+
     private View view;
     private RecyclerView mAdsContainer;
     private DatabaseReference mDatabase;
     private FirebaseRecyclerOptions<Ad> options;
     private FirebaseRecyclerAdapter<Ad, AdViewHolder> adapter;
 
-    private String phoneNumber;
-
-
-    public MyAdsFragment(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,18 +45,19 @@ public class MyAdsFragment extends Fragment {
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
 
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Query query = mDatabase.orderByChild("phoneNumber").equalTo(phoneNumber);
-        options = new FirebaseRecyclerOptions.Builder<Ad>().setQuery(query, Ad.class).build();
+        options = new FirebaseRecyclerOptions.Builder<Ad>().setQuery(mDatabase, Ad.class).build();
         adapter = new FirebaseRecyclerAdapter<Ad, AdViewHolder>(options) {
+
             @Override
-            protected void onBindViewHolder(final AdViewHolder holder, int position, final Ad ad) {
-                String id = getRef(position).getKey();
+            protected void onBindViewHolder(final AdViewHolder holder, final int position, final Ad ad) {
+                final String id = getRef(position).getKey();
                 mDatabase.child(id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,6 +81,15 @@ public class MyAdsFragment extends Fragment {
 
                     }
                 });
+
+                holder.adLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AdActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -100,20 +101,5 @@ public class MyAdsFragment extends Fragment {
 
         mAdsContainer.setAdapter(adapter);
         adapter.startListening();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.lszlsomai.sapiadvertiser;
+package com.example.lszlsomai.sapiadvertiser.Activities;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -8,6 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+
+import com.example.lszlsomai.sapiadvertiser.Fragments.CreateAdFragment;
+import com.example.lszlsomai.sapiadvertiser.Fragments.HomeFragment;
+import com.example.lszlsomai.sapiadvertiser.Fragments.MyAccountFragment;
+import com.example.lszlsomai.sapiadvertiser.Fragments.MyAdsFragment;
+import com.example.lszlsomai.sapiadvertiser.R;
+import com.example.lszlsomai.sapiadvertiser.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;

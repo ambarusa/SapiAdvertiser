@@ -1,23 +1,23 @@
-package com.example.lszlsomai.sapiadvertiser;
+package com.example.lszlsomai.sapiadvertiser.Activities;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lszlsomai.sapiadvertiser.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -35,8 +35,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mVerificationCode;
     private Button mLoginBtn;
 
-    private int btnType = 0; // 0 = phone number verification function
-    //  1 = code verify function
+    private int btnType = 0;
+
+    // 0 = phone number verification function
+    // 1 = code verify function
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -49,6 +51,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if ( !isOnline() )
+        {
+            Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -58,27 +66,24 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = (Button) findViewById(R.id.buttonSignIn);
 
         // When Sign In button pressed listener
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (btnType == 0) {
+
+                    // Phone number verification
+
                     mLoginBtn.setEnabled(false);
                     mPhoneNumber.setEnabled(false);
 
                     // Save the phone number
                     String phoneNumber = mPhoneNumber.getText().toString();
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                            // Phone number to verify
-                            phoneNumber,
-                            // Timeout duration
-                            60,
-                            // Unit of timeout
-                            TimeUnit.SECONDS,
-                            // Activity (for callback binding)
-                            LoginActivity.this,
-                            // OnVerificationStateChangedCallbacks
-                            mCallbacks);
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber,60, TimeUnit.SECONDS,LoginActivity.this, mCallbacks);
                 } else {
+
+                    // Code verification
+
                     mLoginBtn.setEnabled(false);
                     String verificationCode = mVerificationCode.getText().toString();
                     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, verificationCode);
@@ -95,8 +100,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(getBaseContext(), "There was some error in logging in.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Phone number verification failed", Toast.LENGTH_LONG).show();
                 mPhoneNumber.setEnabled(true);
+                mLoginBtn.setEnabled(true);
             }
 
             @Override
@@ -128,6 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in failed, display a message and update the UI
                             Toast.makeText(getBaseContext(), "There was some error in logging in, please try again later", Toast.LENGTH_LONG).show();
                             mPhoneNumber.setEnabled(true);
+                            mLoginBtn.setEnabled(true);
+                            mLoginBtn.setText("Sign in");
+                            mVerificationCode.setVisibility(View.INVISIBLE);
                             btnType = 0;
                         }
                     }
@@ -176,4 +185,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private boolean isOnline() {
+        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if( netInfo == null || ! netInfo.isConnected() || ! netInfo.isAvailable() )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 }
