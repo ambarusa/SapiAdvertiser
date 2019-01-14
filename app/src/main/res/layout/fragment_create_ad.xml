@@ -19,7 +19,7 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/ad_phone" />
+        app:layout_constraintBottom_toTopOf="@+id/ad_phone"/>
 
     <EditText
         android:id="@+id/ad_phone"
@@ -72,9 +72,29 @@
         android:layout_height="wrap_content"
         android:hint="Address"
         android:inputType="text"
+        android:layout_marginBottom="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="342dp" />
+        app:layout_constraintBottom_toTopOf="@id/chooseBtn" />
+
+    <Button
+        android:id="@+id/chooseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Photo"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@id/createAdBtn" />
+
+    <ImageView
+        android:id="@+id/uploadDoneImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/chooseBtn"
+        app:layout_constraintTop_toBottomOf="@+id/ad_Location"
+        app:srcCompat="@drawable/ic_done"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/createAdBtn"
@@ -84,7 +104,6 @@
         android:textColor="@color/colorWhite"
         android:background="@color/colorPrimary"
         android:textStyle="bold"
-        android:layout_marginBottom="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
