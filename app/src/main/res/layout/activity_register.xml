@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
-    tools:context=".Activities.RegisterActivity">
+    tools:context="ro.sapientia.ms.sapiadvertiser.Activities.RegisterActivity">
 
     <ImageView
         android:id="@+id/imageView"

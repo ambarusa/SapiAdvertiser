@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lszlsomai.sapiadvertiser">
+    package="ro.sapientia.ms.sapiadvertiser">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -16,16 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name="ro.sapientia.ms.sapiadvertiser.Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.RegisterActivity" />
-        <activity android:name=".Activities.MainActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".Activities.AdActivity"></activity>
+        <activity android:name="ro.sapientia.ms.sapiadvertiser.Activities.RegisterActivity" />
+        <activity android:name="ro.sapientia.ms.sapiadvertiser.Activities.MainActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="ro.sapientia.ms.sapiadvertiser.Activities.AdActivity"></activity>
     </application>
 
 </manifest>
