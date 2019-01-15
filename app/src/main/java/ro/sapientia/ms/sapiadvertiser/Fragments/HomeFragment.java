@@ -81,7 +81,6 @@ public class HomeFragment extends Fragment {
                                 .load(mStorageRef.child("/images/" + title))
                                 .into(holder.adThumbnail);
                         holder.adAvatar.setImageResource(R.drawable.img_avatar);
-//                        holder.adThumbnail.setImageResource(R.mipmap.ic_launcher);
                     }
 
                     @Override

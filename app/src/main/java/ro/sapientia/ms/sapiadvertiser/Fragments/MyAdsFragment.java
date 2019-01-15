@@ -1,6 +1,7 @@
 package ro.sapientia.ms.sapiadvertiser.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ro.sapientia.ms.sapiadvertiser.Activities.AdActivity;
 import ro.sapientia.ms.sapiadvertiser.Models.Ad;
+import ro.sapientia.ms.sapiadvertiser.Models.GlideApp;
 import ro.sapientia.ms.sapiadvertiser.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -25,12 +28,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 @SuppressLint("ValidFragment")
 public class MyAdsFragment extends Fragment {
     private View view;
     private RecyclerView mAdsContainer;
     private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
     private FirebaseRecyclerOptions<Ad> options;
     private FirebaseRecyclerAdapter<Ad, AdViewHolder> adapter;
 
@@ -54,6 +60,7 @@ public class MyAdsFragment extends Fragment {
 
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         return view;
     }
@@ -65,8 +72,8 @@ public class MyAdsFragment extends Fragment {
         options = new FirebaseRecyclerOptions.Builder<Ad>().setQuery(query, Ad.class).build();
         adapter = new FirebaseRecyclerAdapter<Ad, AdViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(final AdViewHolder holder, int position, final Ad ad) {
-                String id = getRef(position).getKey();
+            protected void onBindViewHolder(final AdViewHolder holder, final int position, final Ad ad) {
+                final String id = getRef(position).getKey();
                 mDatabase.child(id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,15 +86,24 @@ public class MyAdsFragment extends Fragment {
                         holder.adViews.setText(views);
 
                         //Load Images using Glide
-//        Glide.with(mContext).load(mAdsList.get(position).getAvatarURL()).apply(avatarOption).into(holder.avatar);
-//        Glide.with(mContext).load(mAdsList.get(position).getPostThumbnailURL()).apply(thumbnailOption).into(holder.postThumbnail);
+                        GlideApp.with(getContext())
+                                .load(mStorageRef.child("/images/" + title))
+                                .into(holder.adThumbnail);
                         holder.adAvatar.setImageResource(R.drawable.img_avatar);
-                        holder.adThumbnail.setImageResource(R.mipmap.ic_launcher);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
+
+                holder.adLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AdActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
                     }
                 });
             }
