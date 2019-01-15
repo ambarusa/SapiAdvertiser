@@ -1,12 +1,16 @@
 package ro.sapientia.ms.sapiadvertiser.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ro.sapientia.ms.sapiadvertiser.Models.GlideApp;
 import ro.sapientia.ms.sapiadvertiser.R;
@@ -23,6 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AdActivity extends AppCompatActivity {
 
     private TextView adTitle;
@@ -36,12 +43,13 @@ public class AdActivity extends AppCompatActivity {
     private ImageView adAvatar;
     private TextView adCreator;
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, reportsRef;
     private StorageReference mStorageRef;
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         //Remove the titlebar
         try {
@@ -63,10 +71,49 @@ public class AdActivity extends AppCompatActivity {
 
         //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
+        reportsRef = FirebaseDatabase.getInstance().getReference().child("Reports");
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         //Link with Firestore
         db = FirebaseFirestore.getInstance();
+
+        // Share button
+        adShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check this out. Very good ad.");
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent, "Choose app"));
+            }
+        });
+
+        // Report button
+        adReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a map for report
+                Map<String, Object> report = new HashMap<>();
+
+                report.put("ID", getIntent().getStringExtra("id"));
+                report.put("Text", "Reported.");
+
+                // Push to realtime-database
+                reportsRef.push().setValue(report, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                            // Reported successsfully
+                            Toast.makeText(getBaseContext(), "Reported", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Error in report
+                            Toast.makeText(getBaseContext(), "There was an error in report. Try again.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
