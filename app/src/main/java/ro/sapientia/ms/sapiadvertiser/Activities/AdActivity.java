@@ -104,11 +104,11 @@ public class AdActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                         if (databaseError != null) {
-                            // Reported successsfully
-                            Toast.makeText(getBaseContext(), "Reported", Toast.LENGTH_SHORT).show();
-                        } else {
                             // Error in report
                             Toast.makeText(getBaseContext(), "There was an error in report. Try again.", Toast.LENGTH_LONG).show();
+                        } else {
+                            // Reported successsfully
+                            Toast.makeText(getBaseContext(), "Reported", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
