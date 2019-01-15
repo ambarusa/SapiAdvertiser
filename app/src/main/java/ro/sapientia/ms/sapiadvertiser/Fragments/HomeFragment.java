@@ -1,5 +1,6 @@
 package ro.sapientia.ms.sapiadvertiser.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,20 +15,28 @@ import android.view.ViewGroup;
 
 import ro.sapientia.ms.sapiadvertiser.Models.Ad;
 import ro.sapientia.ms.sapiadvertiser.Activities.AdActivity;
+import ro.sapientia.ms.sapiadvertiser.Models.GlideApp;
 import ro.sapientia.ms.sapiadvertiser.R;
+
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.InputStream;
 
 public class HomeFragment extends Fragment {
 
     private View view;
     private RecyclerView mAdsContainer;
     private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
     private FirebaseRecyclerOptions<Ad> options;
     private FirebaseRecyclerAdapter<Ad, AdViewHolder> adapter;
 
@@ -41,9 +50,8 @@ public class HomeFragment extends Fragment {
         mAdsContainer.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdsContainer.setItemAnimator(new DefaultItemAnimator());
 
-        //Get Instance from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Ads");
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         return view;
     }
@@ -69,10 +77,11 @@ public class HomeFragment extends Fragment {
                         holder.adViews.setText(views);
 
                         //Load Images using Glide
-//        Glide.with(mContext).load(mAdsList.get(position).getAvatarURL()).apply(avatarOption).into(holder.avatar);
-//        Glide.with(mContext).load(mAdsList.get(position).getPostThumbnailURL()).apply(thumbnailOption).into(holder.postThumbnail);
+                        GlideApp.with(getContext())
+                                .load(mStorageRef.child("/images/" + title))
+                                .into(holder.adThumbnail);
                         holder.adAvatar.setImageResource(R.drawable.img_avatar);
-                        holder.adThumbnail.setImageResource(R.mipmap.ic_launcher);
+//                        holder.adThumbnail.setImageResource(R.mipmap.ic_launcher);
                     }
 
                     @Override
@@ -102,3 +111,4 @@ public class HomeFragment extends Fragment {
         adapter.startListening();
     }
 }
+
