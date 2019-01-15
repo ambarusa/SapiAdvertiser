@@ -1,0 +1,4 @@
+#Tue Jan 15 15:59:19 EET 2019
+base.0=C\:\\Sapientia 2018-19\\Android\\SapiAdvertiser\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

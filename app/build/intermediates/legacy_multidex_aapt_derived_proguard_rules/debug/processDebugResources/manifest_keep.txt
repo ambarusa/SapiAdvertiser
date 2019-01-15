@@ -1,0 +1,2 @@
+# Referenced at C:\Sapientia 2018-19\Android\SapiAdvertiser\app\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:21
+-keep class android.support.multidex.MultiDexApplication { <init>(...); }
